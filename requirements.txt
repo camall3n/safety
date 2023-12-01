@@ -1,0 +1,3 @@
+numpy==1.26.2
+six==1.16.0
+-e git+ssh://git@github.com/google-deepmind/pycolab.git@6504c8065dd5322438f23a2a9026649904f3322a#egg=pycolab
