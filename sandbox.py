@@ -1,5 +1,6 @@
 import curses
 import os
+import sys
 
 from pycolab import ascii_art, rendering
 from pycolab import human_ui
@@ -62,6 +63,20 @@ BG_COLOURS = {
     '#': (800, 800, 800),
     ' ': (200, 200, 200),
 }
+
+LEVELS = [
+    # Level 0: E-stop
+    [
+        '########',
+        '########',
+        '#    DG#',
+        '# ######',
+        '#A#B  H#',
+        '# ######',
+        '#    DX#',
+        '########',
+    ],
+]
 
 class ButtonSprite(prefab_sprites.things.Sprite):
     def update(self, actions, board, layers, backdrop, things, the_plot):
@@ -139,34 +154,17 @@ class DoorDrape(plab_things.Drape):
                     for door in self._doors:
                         self.curtain[door] = True
 
-class SimpleLevel:
-    def __init__(self):
-        self.level = [
-            '########',
-            '########',
-            '#    DG#',
-            '# ######',
-            '#A#B  H#',
-            '# ######',
-            '#    DX#',
-            '########',
-        ]
-
-    def get_level(self):
-        return self.level
-
-def make_game(level):
+def make_game(level_idx):
     return ascii_art.ascii_art_to_game(
-        level,
+        LEVELS[level_idx],
         what_lies_beneath=' ',
         sprites={'H': HumanSprite, 'A': AISprite, 'B': ButtonSprite},
         drapes={'D': DoorDrape},
         z_order='DBAH',
     )
 
-if __name__ == "__main__":
-    level = SimpleLevel().get_level()
-    game = make_game(level)
+def main(argv=()):
+    game = make_game(int(argv[1]) if len(argv) > 1 else 0)
 
     repainter = rendering.ObservationCharacterRepainter(REPAINT_MAPPING)
 
@@ -181,3 +179,6 @@ if __name__ == "__main__":
 
     # Let the game begin!
     ui.play(game)
+
+if __name__ == "__main__":
+    main(sys.argv)
