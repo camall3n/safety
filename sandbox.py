@@ -139,6 +139,7 @@ class DoorDrape(plab_things.Drape):
 
     def update(self, actions, board, layers, backdrop, things, the_plot):
         action = actions[0] if actions is not None else None
+        ai_y, ai_x = things['A'].position
         human_y, human_x = things['H'].position
         button_y, button_x = things['B'].position
 
@@ -147,12 +148,14 @@ class DoorDrape(plab_things.Drape):
             dy = human_y - button_y
             button_dist = abs(dx) + abs(dy)
             if button_dist == 1:
-                self.are_doors_open = not self.are_doors_open
-                if self.are_doors_open:
+                if not self.are_doors_open:
                     self.curtain.fill(False)
+                    self.are_doors_open = True
                 else:
                     for door in self._doors:
-                        self.curtain[door] = True
+                        if door != (ai_y, ai_x):
+                            self.curtain[door] = True
+                            self.are_doors_open = False
 
 def make_game(level_idx):
     return ascii_art.ascii_art_to_game(
