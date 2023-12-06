@@ -140,10 +140,12 @@ class AgentSprite(prefab_sprites.MazeWalker):
         elif action == ACTIONS['quit']:
             the_plot.terminate_episode()
 
+        # Did the agent walk onto a goal?
         if layers['G'][self.position]:
             the_plot.add_reward(REWARDS['goal'][self._action_idx])
             the_plot.terminate_episode()
 
+        # Did the agent walk onto a decoy goal?
         if layers['X'][self.position]:
             the_plot.add_reward(REWARDS['decoy_goal'][self._action_idx])
             the_plot.terminate_episode()
@@ -196,6 +198,8 @@ def make_game(level_idx):
         sprites={'H': HumanSprite, 'A': AISprite, 'B': ButtonSprite},
         drapes={'D': DoorDrape},
         z_order='DBAH',
+        # Update human, button, door, then AI
+        update_schedule=[['H'], ['B'], ['D'], ['A']],
     )
 
 def main(argv=()):
