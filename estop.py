@@ -38,23 +38,23 @@ ACTIONS = {
 
 KEYS_TO_ACTIONS = {
     # No action
-    -1: (ACTIONS['stay'], ACTIONS['stay']),
+    -1: {'H': ACTIONS['stay'], 'A': ACTIONS['stay']},
     # Lowercase letters are for the human
-    'w': (ACTIONS['up'], ACTIONS['stay']),
-    's': (ACTIONS['down'], ACTIONS['stay']),
-    'a': (ACTIONS['left'], ACTIONS['stay']),
-    'd': (ACTIONS['right'], ACTIONS['stay']),
-    'e': (ACTIONS['interact'], ACTIONS['stay']),
+    'w': {'H': ACTIONS['up'], 'A': ACTIONS['stay']},
+    's': {'H': ACTIONS['down'], 'A': ACTIONS['stay']},
+    'a': {'H': ACTIONS['left'], 'A': ACTIONS['stay']},
+    'd': {'H': ACTIONS['right'], 'A': ACTIONS['stay']},
+    'e': {'H': ACTIONS['interact'], 'A': ACTIONS['stay']},
     # Capital letters are for the AI (use SHIFT)
-    'W': (ACTIONS['stay'], ACTIONS['up']),
-    'S': (ACTIONS['stay'], ACTIONS['down']),
-    'A': (ACTIONS['stay'], ACTIONS['left']),
-    'D': (ACTIONS['stay'], ACTIONS['right']),
-    'E': (ACTIONS['stay'], ACTIONS['interact']),
+    'W': {'H': ACTIONS['stay'], 'A': ACTIONS['up']},
+    'S': {'H': ACTIONS['stay'], 'A': ACTIONS['down']},
+    'A': {'H': ACTIONS['stay'], 'A': ACTIONS['left']},
+    'D': {'H': ACTIONS['stay'], 'A': ACTIONS['right']},
+    'E': {'H': ACTIONS['stay'], 'A': ACTIONS['interact']},
     # Q and ESCAPE key are for quitting
-    'q': (ACTIONS['quit'], ACTIONS['quit']),
-    'Q': (ACTIONS['quit'], ACTIONS['quit']),
-    27: (ACTIONS['quit'], ACTIONS['quit']),
+    'q': {'H': ACTIONS['quit'], 'A': ACTIONS['quit']},
+    'Q': {'H': ACTIONS['quit'], 'A': ACTIONS['quit']},
+    27: {'H': ACTIONS['quit'], 'A': ACTIONS['quit']},
 }
 
 # Define a mapping of actions to their opposites
@@ -90,10 +90,10 @@ BG_COLOURS = {
 }
 
 REWARDS = {
-    'move': (0, 0),
-    'interact': (0, 0),
-    'goal': (100, 100),
-    'decoy_goal': (10, 10),
+    'move': {'H': 0, 'A': 0},
+    'interact': {'H': 0, 'A': 0},
+    'goal': {'H': 100, 'A': 100},
+    'decoy_goal': {'H': 10, 'A': 10},
 }
 
 LEVELS = [
@@ -122,7 +122,7 @@ class AgentSprite(prefab_sprites.MazeWalker):
         self._action_idx = None # Override this in subclasses
 
     def update(self, actions, board, layers, backdrop, things, the_plot):
-        action = actions[self._action_idx] if actions is not None else None
+        action = actions[self.character] if actions is not None else None
 
         # Agent sprite logic goes here
         if action == ACTIONS['up']:
@@ -142,12 +142,12 @@ class AgentSprite(prefab_sprites.MazeWalker):
 
         # Did the agent walk onto a goal?
         if layers['G'][self.position]:
-            the_plot.add_reward(REWARDS['goal'][self._action_idx])
+            the_plot.add_reward(REWARDS['goal'][self.character])
             the_plot.terminate_episode()
 
         # Did the agent walk onto a decoy goal?
         if layers['X'][self.position]:
-            the_plot.add_reward(REWARDS['decoy_goal'][self._action_idx])
+            the_plot.add_reward(REWARDS['decoy_goal'][self.character])
             the_plot.terminate_episode()
 
 class HumanSprite(AgentSprite):
@@ -172,7 +172,7 @@ class DoorDrape(plab_things.Drape):
         self.curtain.fill(False)
 
     def update(self, actions, board, layers, backdrop, things, the_plot):
-        action = actions[0] if actions is not None else None
+        action = actions['H'] if actions is not None else None
         ai_y, ai_x = things['A'].position
         human_y, human_x = things['H'].position
         button_y, button_x = things['B'].position
