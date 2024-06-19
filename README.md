@@ -9,7 +9,7 @@ Testbed for bounded-optimal assistance games
 git clone --recurse-submodules https://github.com/camall3n/safety.git
 ```
 
-#### Configure python environment
+#### Configure virtual environment
 ```
 python3 -m venv venv
 source venv/bin/activate
@@ -17,7 +17,14 @@ pip install --upgrade pip wheel
 pip install -r requirements.txt
 ```
 
-## Run tests
+## Running
+
+#### Activate virtual environment (if necessary)
+```
+source venv/bin/activate
+```
+
+#### Run tests
 ```
 python solve_estop.py
 ```
