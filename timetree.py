@@ -65,7 +65,7 @@ OPPOSITE_ACTIONS = {
     ACTIONS['interact']: ACTIONS['interact'],
 }
 
-REPAINT_MAPPING = {'D': '#'}
+REPAINT_MAPPING = {'1':'#', '2':'#', '3':'#', '4':'#', '5':'#', '6':'#'}
 
 FG_COLOURS = {
     'H': (999, 500, 0),    # The human wears an orange jumpsuit.
@@ -162,11 +162,11 @@ class AISprite(AgentSprite):
         super().__init__(corner, position, character)
         self._action_idx = 1
 
-class DoorDrape(plab_things.Drape):
+class Door1Drape(plab_things.Drape):
     def __init__(self, curtain, character):
         super().__init__(curtain, character)
         self.are_doors_open = True
-        self._doors = [] # TODO: Maybe need to change how this is initialized in the loop below?
+        self._doors = []
         for i, row in enumerate(curtain):
             for j, char in enumerate(row):
                 if char:
@@ -177,13 +177,168 @@ class DoorDrape(plab_things.Drape):
         action = actions['H'] if actions is not None else None
         ai_y, ai_x = things['A'].position
         human_y, human_x = things['H'].position
-        button_y, button_x = things['B'].position # TODO: L or R
+        button_y, button_x = things['L'].position
 
         if action == ACTIONS['interact']:
             dx = human_x - button_x
             dy = human_y - button_y
             button_dist = abs(dx) + abs(dy)
-            if button_dist == 1:
+            if button_dist == 1 and ai_y == 3 and 5 <= ai_x <= 7:
+                if not self.are_doors_open:
+                    self.curtain.fill(False)
+                    self.are_doors_open = True
+                else:
+                    for door in self._doors:
+                        if door != (ai_y, ai_x):
+                            self.curtain[door] = True
+                            self.are_doors_open = False
+
+class Door2Drape(plab_things.Drape):
+    def __init__(self, curtain, character):
+        super().__init__(curtain, character)
+        self.are_doors_open = True
+        self._doors = []
+        for i, row in enumerate(curtain):
+            for j, char in enumerate(row):
+                if char:
+                    self._doors.append((i, j))
+        self.curtain.fill(False)
+
+    def update(self, actions, board, layers, backdrop, things, the_plot):
+        action = actions['H'] if actions is not None else None
+        ai_y, ai_x = things['A'].position
+        human_y, human_x = things['H'].position
+        button_y, button_x = things['R'].position
+
+        if action == ACTIONS['interact']:
+            dx = human_x - button_x
+            dy = human_y - button_y
+            button_dist = abs(dx) + abs(dy)
+            if button_dist == 1 and ai_y == 3 and 5 <= ai_x <= 7:
+                if not self.are_doors_open:
+                    self.curtain.fill(False)
+                    self.are_doors_open = True
+                else:
+                    for door in self._doors:
+                        if door != (ai_y, ai_x):
+                            self.curtain[door] = True
+                            self.are_doors_open = False
+
+class Door3Drape(plab_things.Drape):
+    def __init__(self, curtain, character):
+        super().__init__(curtain, character)
+        self.are_doors_open = True
+        self._doors = []
+        for i, row in enumerate(curtain):
+            for j, char in enumerate(row):
+                if char:
+                    self._doors.append((i, j))
+        self.curtain.fill(False)
+
+    def update(self, actions, board, layers, backdrop, things, the_plot):
+        action = actions['H'] if actions is not None else None
+        ai_y, ai_x = things['A'].position
+        human_y, human_x = things['H'].position
+        button_y, button_x = things['L'].position
+
+        if action == ACTIONS['interact']:
+            dx = human_x - button_x
+            dy = human_y - button_y
+            button_dist = abs(dx) + abs(dy)
+            if button_dist == 1 and ai_y == 3 and 1 <= ai_x <= 4:
+                if not self.are_doors_open:
+                    self.curtain.fill(False)
+                    self.are_doors_open = True
+                else:
+                    for door in self._doors:
+                        if door != (ai_y, ai_x):
+                            self.curtain[door] = True
+                            self.are_doors_open = False
+
+class Door4Drape(plab_things.Drape):
+    def __init__(self, curtain, character):
+        super().__init__(curtain, character)
+        self.are_doors_open = True
+        self._doors = []
+        for i, row in enumerate(curtain):
+            for j, char in enumerate(row):
+                if char:
+                    self._doors.append((i, j))
+        self.curtain.fill(False)
+
+    def update(self, actions, board, layers, backdrop, things, the_plot):
+        action = actions['H'] if actions is not None else None
+        ai_y, ai_x = things['A'].position
+        human_y, human_x = things['H'].position
+        button_y, button_x = things['R'].position
+
+        if action == ACTIONS['interact']:
+            dx = human_x - button_x
+            dy = human_y - button_y
+            button_dist = abs(dx) + abs(dy)
+            if button_dist == 1 and ai_y == 3 and 1 <= ai_x <= 4:
+                if not self.are_doors_open:
+                    self.curtain.fill(False)
+                    self.are_doors_open = True
+                else:
+                    for door in self._doors:
+                        if door != (ai_y, ai_x):
+                            self.curtain[door] = True
+                            self.are_doors_open = False
+
+class Door5Drape(plab_things.Drape):
+    def __init__(self, curtain, character):
+        super().__init__(curtain, character)
+        self.are_doors_open = True
+        self._doors = []
+        for i, row in enumerate(curtain):
+            for j, char in enumerate(row):
+                if char:
+                    self._doors.append((i, j))
+        self.curtain.fill(False)
+
+    def update(self, actions, board, layers, backdrop, things, the_plot):
+        action = actions['H'] if actions is not None else None
+        ai_y, ai_x = things['A'].position
+        human_y, human_x = things['H'].position
+        button_y, button_x = things['L'].position
+
+        if action == ACTIONS['interact']:
+            dx = human_x - button_x
+            dy = human_y - button_y
+            button_dist = abs(dx) + abs(dy)
+            if button_dist == 1 and ai_y == 3 and 8 <= ai_x <= 11:
+                if not self.are_doors_open:
+                    self.curtain.fill(False)
+                    self.are_doors_open = True
+                else:
+                    for door in self._doors:
+                        if door != (ai_y, ai_x):
+                            self.curtain[door] = True
+                            self.are_doors_open = False
+
+class Door6Drape(plab_things.Drape):
+    def __init__(self, curtain, character):
+        super().__init__(curtain, character)
+        self.are_doors_open = True
+        self._doors = []
+        for i, row in enumerate(curtain):
+            for j, char in enumerate(row):
+                if char:
+                    self._doors.append((i, j))
+        self.curtain.fill(False)
+
+    def update(self, actions, board, layers, backdrop, things, the_plot):
+        action = actions['H'] if actions is not None else None
+        ai_y, ai_x = things['A'].position
+        human_y, human_x = things['H'].position
+        button_y, button_x = things['R'].position
+
+        if action == ACTIONS['interact']:
+            dx = human_x - button_x
+            dy = human_y - button_y
+            button_dist = abs(dx) + abs(dy)
+            if button_dist == 1 and ai_y == 3 and 8 <= ai_x <= 11:
                 if not self.are_doors_open:
                     self.curtain.fill(False)
                     self.are_doors_open = True
@@ -198,10 +353,17 @@ def make_game(level_idx):
         LEVELS[level_idx],
         what_lies_beneath=' ',
         sprites={'H': HumanSprite, 'A': AISprite, 'L': ButtonLeftSprite, 'R': ButtonRightSprite},
-        drapes={'D': DoorDrape}, # TODO: 6 doors
-        z_order='DBAH', # TODO: 6 doors (replace D with 123456)
-        # Update human, button, door, then AI
-        update_schedule=[['H'], ['B'], ['D'], ['A']], # TODO: 6 doors
+        drapes={
+            '1': Door1Drape,
+            '2': Door2Drape,
+            '3': Door3Drape,
+            '4': Door4Drape,
+            '5': Door5Drape,
+            '6': Door6Drape,
+        },
+        z_order='123456LRAH',
+        # Update human, buttons, doors, then AI
+        update_schedule=[['H'], ['L'], ['R'], ['1'], ['2'], ['3'], ['4'], ['5'], ['6'], ['A']],
     )
 
 def main(argv=()):
@@ -212,11 +374,12 @@ def main(argv=()):
     # Make a CursesUi to play it with.
     os.environ.setdefault('ESCDELAY', '25') # Reduce delay for ESC key
     ui = human_ui.CursesUi(
-      keys_to_actions=KEYS_TO_ACTIONS,
-      repainter=repainter,
-      delay=50,
-      colour_fg=FG_COLOURS,
-      colour_bg=BG_COLOURS)
+        keys_to_actions=KEYS_TO_ACTIONS,
+        repainter=repainter,
+        delay=50,
+        colour_fg=FG_COLOURS,
+        colour_bg=BG_COLOURS
+    )
 
     # Let the game begin!
     ui.play(game)
