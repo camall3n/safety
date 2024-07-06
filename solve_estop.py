@@ -1,4 +1,4 @@
-from estop import make_game
+from worlds.estop import make_game
 
 def main():
     game = make_game(0)
