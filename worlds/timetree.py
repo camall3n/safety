@@ -129,7 +129,7 @@ class ButtonRightSprite(prefab_sprites.things.Sprite):
         pass
 
 class AgentSprite(prefab_sprites.MazeWalker):
-    _IMPASSABLES = '#AHLRD'
+    _IMPASSABLES = '#AHLR123456'
     def __init__(self, corner, position, character):
         impassables_besides_agent = self._IMPASSABLES.replace(character, '')
         super().__init__(corner, position, character, impassable=impassables_besides_agent)
